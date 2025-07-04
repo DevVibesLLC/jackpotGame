@@ -1,4 +1,4 @@
-package am.devvibes.config;
+package am.devvibes.configs;
 
 import java.util.Map;
 import lombok.Data;

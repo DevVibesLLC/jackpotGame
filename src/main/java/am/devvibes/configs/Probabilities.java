@@ -1,4 +1,4 @@
-package am.devvibes.config;
+package am.devvibes.configs;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;

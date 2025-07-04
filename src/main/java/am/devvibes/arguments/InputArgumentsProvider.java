@@ -1,13 +1,16 @@
 package am.devvibes.arguments;
 
 import lombok.experimental.UtilityClass;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @UtilityClass
 public class InputArgumentsProvider {
 
+  private static final Logger log = LoggerFactory.getLogger(InputArgumentsProvider.class);
   public static InputArgument getInputArguments(String[] args) {
     if (args.length != 2) {
-      System.out.println("Usage: java -jar <your-jar-file> --config:<config-file-path> --betting-amount:<amount>");
+      log.debug("Usage: java -jar <your-jar-file> --config:<config-file-path> --betting-amount:<amount>");
       return null;
     }
 
@@ -22,20 +25,20 @@ public class InputArgumentsProvider {
         try {
           betAmount = Double.parseDouble(amountStr);
           if (betAmount <= 0) {
-            System.err.println("Error: Betting amount must be greater than zero.");
-            return null;
+            log.error("Error: Betting amount must be greater than zero.");
+            System.exit(0);
           }
         } catch (NumberFormatException e) {
-          System.err.println("Error: Invalid value for --betting-amount. Please provide a valid number.");
+          log.error("Error: Invalid value for --betting-amount. Please provide a valid number.");
           return null;
         }
       } else {
-        System.err.println("Error: Unknown argument \"" + arg + "\"");
+        log.error("Error: Unknown argument {}", arg);
         return null;
       }
     }
     if (configFilePath == null || betAmount == null) {
-      System.err.println("Error: Both --config and --betting-amount arguments are required.");
+      log.error("Error: Both --config and --betting-amount arguments are required.");
       return null;
     }
     return new InputArgument(configFilePath, betAmount);
