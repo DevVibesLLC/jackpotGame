@@ -31,7 +31,7 @@ public class MatrixGenerator {
         SymbolProbability probabilities = standardSymbolProbabilities.stream()
           .filter(p -> p.getRow() == finalRow && p.getColumn() == finalColumn)
           .findFirst()
-          .orElse(standardSymbolProbabilities.getFirst());
+          .orElse(standardSymbolProbabilities.get(0));
         matrix[row][column] = generateSymbol(probabilities.getSymbols());
       }
     }
@@ -40,11 +40,11 @@ public class MatrixGenerator {
   }
 
   public static void printGameOverview(double reward, Map<String, List<String>> appliedWinningCombinations,
-    String appliedBonusSymbol, double betAmount) {
+    List<String> appliedBonusSymbol, double betAmount) {
     try {
       objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
       Map<String, Object> output = Map.of(
-        "beted amount", betAmount,
+        "bet amount", betAmount,
         "reward", reward,
         "applied_winning_combinations", appliedWinningCombinations,
         "applied_bonus_symbol", appliedBonusSymbol

@@ -10,7 +10,7 @@ public class InputArgumentsProvider {
   private static final Logger log = LoggerFactory.getLogger(InputArgumentsProvider.class);
   public static InputArgument getInputArguments(String[] args) {
     if (args.length != 2) {
-      log.debug("Usage: java -jar <your-jar-file> --config:<config-file-path> --betting-amount:<amount>");
+      log.info("Usage: java -jar <your-jar-file> --config:<config-file-path> --betting-amount:<amount>");
       return null;
     }
 

@@ -2,6 +2,7 @@ package am.devvibes.gameutils;
 
 import am.devvibes.configs.Config;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -26,9 +27,46 @@ public class GameUtils {
   }
 
   public static double calculateReward(double betAmount, Map<String, List<String>> appliedWinningCombinations,
+    List<String> appliedBonusSymbols,
     Config config) {
     double totalReward = 0;
+    totalReward = calcRewardFromSymbolsAndWining(betAmount, appliedWinningCombinations, config, totalReward);
+    checkIfLossThenOut(totalReward);
+    totalReward = calcRewardFromBonuses(appliedBonusSymbols, totalReward);
+    return totalReward;
+  }
 
+  public static List<String> determineBonusSymbols(String[][] matrix,
+    Map<String, List<String>> appliedWinningCombinations) {
+    List<String> bonusSymbols = new ArrayList<>();
+    if (!appliedWinningCombinations.isEmpty()) {
+      for (String[] row : matrix) {
+        for (String cell : row) {
+          if (cell.startsWith("+") || cell.endsWith("x")) {
+            bonusSymbols.add(cell);
+          }
+        }
+      }
+    }
+    return bonusSymbols;
+  }
+
+  private static double calcRewardFromBonuses(List<String> appliedBonusSymbols, double totalReward) {
+    for (String bonus : appliedBonusSymbols) {
+      if (bonus.endsWith("x")) {
+        int multiplier = Integer.parseInt(bonus.replace("x", ""));
+        totalReward *= multiplier;
+      } else if (bonus.startsWith("+")) {
+        int addValue = Integer.parseInt(bonus.replace("+", ""));
+        totalReward += addValue;
+      }
+    }
+    return totalReward;
+  }
+
+  private static double calcRewardFromSymbolsAndWining(double betAmount,
+    Map<String, List<String>> appliedWinningCombinations,
+    Config config, double totalReward) {
     for (Entry<String, List<String>> symbol : appliedWinningCombinations.entrySet()) {
       String key = symbol.getKey();
       double symbolRewardMultiplier = config.getSymbols().get(key).getRewardMultiplier();
@@ -41,18 +79,5 @@ public class GameUtils {
       totalReward += symbolBaseReward;
     }
     return totalReward;
-  }
-
-  public static String determineBonusSymbol(String[][] matrix, Map<String, List<String>> appliedWinningCombinations) {
-    if (!appliedWinningCombinations.isEmpty()) {
-      for (String[] row : matrix) {
-        for (String cell : row) {
-          if (cell.startsWith("+") || cell.endsWith("x")) {
-            return cell;
-          }
-        }
-      }
-    }
-    return "";
   }
 }

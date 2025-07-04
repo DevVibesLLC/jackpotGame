@@ -2,8 +2,7 @@ package am.devvibes;
 
 import static am.devvibes.arguments.InputArgumentsProvider.getInputArguments;
 import static am.devvibes.gameutils.GameUtils.calculateReward;
-import static am.devvibes.gameutils.GameUtils.checkIfLossThenOut;
-import static am.devvibes.gameutils.GameUtils.determineBonusSymbol;
+import static am.devvibes.gameutils.GameUtils.determineBonusSymbols;
 import static am.devvibes.matrix.MatrixGenerator.printGameOverview;
 import static am.devvibes.matrix.MatrixGenerator.printMatrixSeparately;
 import static am.devvibes.validations.ValidationUtils.validateConfig;
@@ -26,9 +25,8 @@ public class JackpotGame {
     printMatrixSeparately(matrix);
     Map<String, List<String>> appliedWinningCombinations =
       WinningCombinationDetector.detectWinningCombinations(matrix, config);
-    double reward = calculateReward(betAmount, appliedWinningCombinations, config);
-    checkIfLossThenOut(reward);
-    String appliedBonusSymbol = determineBonusSymbol(matrix, appliedWinningCombinations);
-    printGameOverview(reward, appliedWinningCombinations, appliedBonusSymbol, betAmount);
+    List<String> appliedBonusSymbols = determineBonusSymbols(matrix, appliedWinningCombinations);
+    double reward = calculateReward(betAmount, appliedWinningCombinations, appliedBonusSymbols, config);
+    printGameOverview(reward, appliedWinningCombinations, appliedBonusSymbols, betAmount);
   }
 }
