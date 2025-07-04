@@ -19,11 +19,12 @@ public class GameUtils {
 
   private static final Logger log = LoggerFactory.getLogger(GameUtils.class);
 
-  public static void checkIfLossThenOut(double reward) {
+  public static boolean checkIfLoss(double reward) {
     if (reward == 0) {
       log.error("You Lose your Bet: {}", reward);
-      System.exit(1);
+      return true;
     }
+    return false;
   }
 
   public static double calculateReward(double betAmount, Map<String, List<String>> appliedWinningCombinations,
@@ -31,7 +32,9 @@ public class GameUtils {
     Config config) {
     double totalReward = 0;
     totalReward = calcRewardFromSymbolsAndWining(betAmount, appliedWinningCombinations, config, totalReward);
-    checkIfLossThenOut(totalReward);
+    if (checkIfLoss(totalReward)) {
+      return totalReward;
+    }
     totalReward = calcRewardFromBonuses(appliedBonusSymbols, totalReward);
     return totalReward;
   }

@@ -66,7 +66,7 @@ public class MatrixGenerator {
     }
   }
 
-  private static String generateSymbol(Map<String, Integer> probabilities) {
+  public static String generateSymbol(Map<String, Integer> probabilities) {
     List<String> weightedSymbols = probabilities.entrySet()
       .stream()
       .flatMap(entry -> Collections.nCopies(entry.getValue(), entry.getKey()).stream())

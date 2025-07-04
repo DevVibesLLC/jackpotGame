@@ -1,9 +1,16 @@
 package am.devvibes.configs;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Symbol {
 
   @JsonProperty("reward_multiplier")
@@ -11,6 +18,4 @@ public class Symbol {
   private String type;
   private Integer extra;
   private String impact;
-
-
 }

@@ -26,7 +26,7 @@ public class InputArgumentsProvider {
           betAmount = Double.parseDouble(amountStr);
           if (betAmount <= 0) {
             log.error("Error: Betting amount must be greater than zero.");
-            System.exit(0);
+            return null;
           }
         } catch (NumberFormatException e) {
           log.error("Error: Invalid value for --betting-amount. Please provide a valid number.");

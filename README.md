@@ -40,5 +40,6 @@ java -jar target/jackpotGame-1.0-SNAPSHOT.jar --config:config/config.json --bett
 2025-07-04 21:34:03 [main] INFO  am.devvibes.matrix.MatrixGenerator - [ 5x, D, D ]
 2025-07-04 21:34:03 [main] ERROR am.devvibes.gameutils.GameUtils - You Lose your Bet: 0.0
 
-
 ```
+## TESTING
+![img.png](img.png)
